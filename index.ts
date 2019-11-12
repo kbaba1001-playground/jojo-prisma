@@ -1,37 +1,25 @@
-// import { prisma } from './generated/prisma-client'
+import { queryType, stringArg, makeSchema } from "nexus";
+import { GraphQLServer } from "graphql-yoga";
 
-// // A `main` function so that we can use async/await
-// async function main() {
-//   // Create a new user called `Alice`
-//   const newUser = await prisma.createUser({ name: 'Alice' })
-//   console.log(`Created new user: ${newUser.name} (ID: ${newUser.id})`)
+const Query = queryType({
+  definition(t) {
+    t.string("hello", {
+      args: { name: stringArg({ nullable: true }) },
+      resolve: (parent, { name }) => `Hello ${name || "World"}!`,
+    });
+  },
+});
 
-//   // Read all users from the database and print them to the console
-//   const allUsers = await prisma.users()
-//   console.log(allUsers)
-// }
+const schema = makeSchema({
+  types: [Query],
+  outputs: {
+    schema: __dirname + "/generated/schema.graphql",
+    typegen: __dirname + "/generated/typings.ts",
+  },
+});
 
-// main().catch(e => console.error(e))
-
-import { GraphQLServer } from 'graphql-yoga'
-
-// Type Definition
-const typeDefs = `
-type Query {
-  character: String!
-}
-`
-
-// Resolvers
-const resolvers = {
-  Query: {
-    character: () => `The force is strong with this API!`
-  }
-}
-
-// Server
 const server = new GraphQLServer({
-  typeDefs,
-  resolvers,
-})
-server.start(() => console.log(`Server is running on http://localhost:4000`))
+  schema,
+});
+
+server.start(() => `Server is running on http://localhost:4000`);
