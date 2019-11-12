@@ -1,4 +1,19 @@
-type User {
+type Product {
   id: ID! @id
   name: String!
+  version: Int!
+}
+
+type Hero {
+  id: ID! @id
+  name: String!
+  stand: String
+  product: Product @relation(link: INLINE)
+}
+
+type Enemy {
+  id: ID! @id
+  name: String!
+  stand: String
+  product: Product @relation(link: INLINE)
 }

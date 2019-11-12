@@ -2,7 +2,15 @@
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-export const typeDefs = /* GraphQL */ `type AggregateUser {
+export const typeDefs = /* GraphQL */ `type AggregateEnemy {
+  count: Int!
+}
+
+type AggregateHero {
+  count: Int!
+}
+
+type AggregateProduct {
   count: Int!
 }
 
@@ -10,105 +18,76 @@ type BatchPayload {
   count: Long!
 }
 
-scalar Long
-
-type Mutation {
-  createUser(data: UserCreateInput!): User!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  deleteUser(where: UserWhereUniqueInput!): User
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
-}
-
-enum MutationType {
-  CREATED
-  UPDATED
-  DELETED
-}
-
-interface Node {
-  id: ID!
-}
-
-type PageInfo {
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String
-  endCursor: String
-}
-
-type Query {
-  user(where: UserWhereUniqueInput!): User
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-  node(id: ID!): Node
-}
-
-type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-}
-
-type User {
+type Enemy {
   id: ID!
   name: String!
+  stand: String
+  product: Product
 }
 
-type UserConnection {
+type EnemyConnection {
   pageInfo: PageInfo!
-  edges: [UserEdge]!
-  aggregate: AggregateUser!
+  edges: [EnemyEdge]!
+  aggregate: AggregateEnemy!
 }
 
-input UserCreateInput {
+input EnemyCreateInput {
   id: ID
   name: String!
+  stand: String
+  product: ProductCreateOneInput
 }
 
-type UserEdge {
-  node: User!
+type EnemyEdge {
+  node: Enemy!
   cursor: String!
 }
 
-enum UserOrderByInput {
+enum EnemyOrderByInput {
   id_ASC
   id_DESC
   name_ASC
   name_DESC
+  stand_ASC
+  stand_DESC
 }
 
-type UserPreviousValues {
+type EnemyPreviousValues {
   id: ID!
   name: String!
+  stand: String
 }
 
-type UserSubscriptionPayload {
+type EnemySubscriptionPayload {
   mutation: MutationType!
-  node: User
+  node: Enemy
   updatedFields: [String!]
-  previousValues: UserPreviousValues
+  previousValues: EnemyPreviousValues
 }
 
-input UserSubscriptionWhereInput {
+input EnemySubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: UserWhereInput
-  AND: [UserSubscriptionWhereInput!]
-  OR: [UserSubscriptionWhereInput!]
-  NOT: [UserSubscriptionWhereInput!]
+  node: EnemyWhereInput
+  AND: [EnemySubscriptionWhereInput!]
+  OR: [EnemySubscriptionWhereInput!]
+  NOT: [EnemySubscriptionWhereInput!]
 }
 
-input UserUpdateInput {
+input EnemyUpdateInput {
   name: String
+  stand: String
+  product: ProductUpdateOneInput
 }
 
-input UserUpdateManyMutationInput {
+input EnemyUpdateManyMutationInput {
   name: String
+  stand: String
 }
 
-input UserWhereInput {
+input EnemyWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -137,12 +116,344 @@ input UserWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  AND: [UserWhereInput!]
-  OR: [UserWhereInput!]
-  NOT: [UserWhereInput!]
+  stand: String
+  stand_not: String
+  stand_in: [String!]
+  stand_not_in: [String!]
+  stand_lt: String
+  stand_lte: String
+  stand_gt: String
+  stand_gte: String
+  stand_contains: String
+  stand_not_contains: String
+  stand_starts_with: String
+  stand_not_starts_with: String
+  stand_ends_with: String
+  stand_not_ends_with: String
+  product: ProductWhereInput
+  AND: [EnemyWhereInput!]
+  OR: [EnemyWhereInput!]
+  NOT: [EnemyWhereInput!]
 }
 
-input UserWhereUniqueInput {
+input EnemyWhereUniqueInput {
   id: ID
+}
+
+type Hero {
+  id: ID!
+  name: String!
+  stand: String
+  product: Product
+}
+
+type HeroConnection {
+  pageInfo: PageInfo!
+  edges: [HeroEdge]!
+  aggregate: AggregateHero!
+}
+
+input HeroCreateInput {
+  id: ID
+  name: String!
+  stand: String
+  product: ProductCreateOneInput
+}
+
+type HeroEdge {
+  node: Hero!
+  cursor: String!
+}
+
+enum HeroOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  stand_ASC
+  stand_DESC
+}
+
+type HeroPreviousValues {
+  id: ID!
+  name: String!
+  stand: String
+}
+
+type HeroSubscriptionPayload {
+  mutation: MutationType!
+  node: Hero
+  updatedFields: [String!]
+  previousValues: HeroPreviousValues
+}
+
+input HeroSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: HeroWhereInput
+  AND: [HeroSubscriptionWhereInput!]
+  OR: [HeroSubscriptionWhereInput!]
+  NOT: [HeroSubscriptionWhereInput!]
+}
+
+input HeroUpdateInput {
+  name: String
+  stand: String
+  product: ProductUpdateOneInput
+}
+
+input HeroUpdateManyMutationInput {
+  name: String
+  stand: String
+}
+
+input HeroWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  stand: String
+  stand_not: String
+  stand_in: [String!]
+  stand_not_in: [String!]
+  stand_lt: String
+  stand_lte: String
+  stand_gt: String
+  stand_gte: String
+  stand_contains: String
+  stand_not_contains: String
+  stand_starts_with: String
+  stand_not_starts_with: String
+  stand_ends_with: String
+  stand_not_ends_with: String
+  product: ProductWhereInput
+  AND: [HeroWhereInput!]
+  OR: [HeroWhereInput!]
+  NOT: [HeroWhereInput!]
+}
+
+input HeroWhereUniqueInput {
+  id: ID
+}
+
+scalar Long
+
+type Mutation {
+  createEnemy(data: EnemyCreateInput!): Enemy!
+  updateEnemy(data: EnemyUpdateInput!, where: EnemyWhereUniqueInput!): Enemy
+  updateManyEnemies(data: EnemyUpdateManyMutationInput!, where: EnemyWhereInput): BatchPayload!
+  upsertEnemy(where: EnemyWhereUniqueInput!, create: EnemyCreateInput!, update: EnemyUpdateInput!): Enemy!
+  deleteEnemy(where: EnemyWhereUniqueInput!): Enemy
+  deleteManyEnemies(where: EnemyWhereInput): BatchPayload!
+  createHero(data: HeroCreateInput!): Hero!
+  updateHero(data: HeroUpdateInput!, where: HeroWhereUniqueInput!): Hero
+  updateManyHeroes(data: HeroUpdateManyMutationInput!, where: HeroWhereInput): BatchPayload!
+  upsertHero(where: HeroWhereUniqueInput!, create: HeroCreateInput!, update: HeroUpdateInput!): Hero!
+  deleteHero(where: HeroWhereUniqueInput!): Hero
+  deleteManyHeroes(where: HeroWhereInput): BatchPayload!
+  createProduct(data: ProductCreateInput!): Product!
+  updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
+  updateManyProducts(data: ProductUpdateManyMutationInput!, where: ProductWhereInput): BatchPayload!
+  upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
+  deleteProduct(where: ProductWhereUniqueInput!): Product
+  deleteManyProducts(where: ProductWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type Product {
+  id: ID!
+  name: String!
+  version: Int!
+}
+
+type ProductConnection {
+  pageInfo: PageInfo!
+  edges: [ProductEdge]!
+  aggregate: AggregateProduct!
+}
+
+input ProductCreateInput {
+  id: ID
+  name: String!
+  version: Int!
+}
+
+input ProductCreateOneInput {
+  create: ProductCreateInput
+  connect: ProductWhereUniqueInput
+}
+
+type ProductEdge {
+  node: Product!
+  cursor: String!
+}
+
+enum ProductOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  version_ASC
+  version_DESC
+}
+
+type ProductPreviousValues {
+  id: ID!
+  name: String!
+  version: Int!
+}
+
+type ProductSubscriptionPayload {
+  mutation: MutationType!
+  node: Product
+  updatedFields: [String!]
+  previousValues: ProductPreviousValues
+}
+
+input ProductSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ProductWhereInput
+  AND: [ProductSubscriptionWhereInput!]
+  OR: [ProductSubscriptionWhereInput!]
+  NOT: [ProductSubscriptionWhereInput!]
+}
+
+input ProductUpdateDataInput {
+  name: String
+  version: Int
+}
+
+input ProductUpdateInput {
+  name: String
+  version: Int
+}
+
+input ProductUpdateManyMutationInput {
+  name: String
+  version: Int
+}
+
+input ProductUpdateOneInput {
+  create: ProductCreateInput
+  update: ProductUpdateDataInput
+  upsert: ProductUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ProductWhereUniqueInput
+}
+
+input ProductUpsertNestedInput {
+  update: ProductUpdateDataInput!
+  create: ProductCreateInput!
+}
+
+input ProductWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  version: Int
+  version_not: Int
+  version_in: [Int!]
+  version_not_in: [Int!]
+  version_lt: Int
+  version_lte: Int
+  version_gt: Int
+  version_gte: Int
+  AND: [ProductWhereInput!]
+  OR: [ProductWhereInput!]
+  NOT: [ProductWhereInput!]
+}
+
+input ProductWhereUniqueInput {
+  id: ID
+}
+
+type Query {
+  enemy(where: EnemyWhereUniqueInput!): Enemy
+  enemies(where: EnemyWhereInput, orderBy: EnemyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Enemy]!
+  enemiesConnection(where: EnemyWhereInput, orderBy: EnemyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EnemyConnection!
+  hero(where: HeroWhereUniqueInput!): Hero
+  heroes(where: HeroWhereInput, orderBy: HeroOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Hero]!
+  heroesConnection(where: HeroWhereInput, orderBy: HeroOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HeroConnection!
+  product(where: ProductWhereUniqueInput!): Product
+  products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
+  productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
+  node(id: ID!): Node
+}
+
+type Subscription {
+  enemy(where: EnemySubscriptionWhereInput): EnemySubscriptionPayload
+  hero(where: HeroSubscriptionWhereInput): HeroSubscriptionPayload
+  product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
 }
 `

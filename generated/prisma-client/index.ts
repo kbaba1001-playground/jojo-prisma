@@ -16,7 +16,9 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
-  user: (where?: UserWhereInput) => Promise<boolean>;
+  enemy: (where?: EnemyWhereInput) => Promise<boolean>;
+  hero: (where?: HeroWhereInput) => Promise<boolean>;
+  product: (where?: ProductWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -38,47 +40,117 @@ export interface Prisma {
    * Queries
    */
 
-  user: (where: UserWhereUniqueInput) => UserNullablePromise;
-  users: (args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
+  enemy: (where: EnemyWhereUniqueInput) => EnemyNullablePromise;
+  enemies: (args?: {
+    where?: EnemyWhereInput;
+    orderBy?: EnemyOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => FragmentableArray<User>;
-  usersConnection: (args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
+  }) => FragmentableArray<Enemy>;
+  enemiesConnection: (args?: {
+    where?: EnemyWhereInput;
+    orderBy?: EnemyOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => UserConnectionPromise;
+  }) => EnemyConnectionPromise;
+  hero: (where: HeroWhereUniqueInput) => HeroNullablePromise;
+  heroes: (args?: {
+    where?: HeroWhereInput;
+    orderBy?: HeroOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Hero>;
+  heroesConnection: (args?: {
+    where?: HeroWhereInput;
+    orderBy?: HeroOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => HeroConnectionPromise;
+  product: (where: ProductWhereUniqueInput) => ProductNullablePromise;
+  products: (args?: {
+    where?: ProductWhereInput;
+    orderBy?: ProductOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Product>;
+  productsConnection: (args?: {
+    where?: ProductWhereInput;
+    orderBy?: ProductOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => ProductConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
    * Mutations
    */
 
-  createUser: (data: UserCreateInput) => UserPromise;
-  updateUser: (args: {
-    data: UserUpdateInput;
-    where: UserWhereUniqueInput;
-  }) => UserPromise;
-  updateManyUsers: (args: {
-    data: UserUpdateManyMutationInput;
-    where?: UserWhereInput;
+  createEnemy: (data: EnemyCreateInput) => EnemyPromise;
+  updateEnemy: (args: {
+    data: EnemyUpdateInput;
+    where: EnemyWhereUniqueInput;
+  }) => EnemyPromise;
+  updateManyEnemies: (args: {
+    data: EnemyUpdateManyMutationInput;
+    where?: EnemyWhereInput;
   }) => BatchPayloadPromise;
-  upsertUser: (args: {
-    where: UserWhereUniqueInput;
-    create: UserCreateInput;
-    update: UserUpdateInput;
-  }) => UserPromise;
-  deleteUser: (where: UserWhereUniqueInput) => UserPromise;
-  deleteManyUsers: (where?: UserWhereInput) => BatchPayloadPromise;
+  upsertEnemy: (args: {
+    where: EnemyWhereUniqueInput;
+    create: EnemyCreateInput;
+    update: EnemyUpdateInput;
+  }) => EnemyPromise;
+  deleteEnemy: (where: EnemyWhereUniqueInput) => EnemyPromise;
+  deleteManyEnemies: (where?: EnemyWhereInput) => BatchPayloadPromise;
+  createHero: (data: HeroCreateInput) => HeroPromise;
+  updateHero: (args: {
+    data: HeroUpdateInput;
+    where: HeroWhereUniqueInput;
+  }) => HeroPromise;
+  updateManyHeroes: (args: {
+    data: HeroUpdateManyMutationInput;
+    where?: HeroWhereInput;
+  }) => BatchPayloadPromise;
+  upsertHero: (args: {
+    where: HeroWhereUniqueInput;
+    create: HeroCreateInput;
+    update: HeroUpdateInput;
+  }) => HeroPromise;
+  deleteHero: (where: HeroWhereUniqueInput) => HeroPromise;
+  deleteManyHeroes: (where?: HeroWhereInput) => BatchPayloadPromise;
+  createProduct: (data: ProductCreateInput) => ProductPromise;
+  updateProduct: (args: {
+    data: ProductUpdateInput;
+    where: ProductWhereUniqueInput;
+  }) => ProductPromise;
+  updateManyProducts: (args: {
+    data: ProductUpdateManyMutationInput;
+    where?: ProductWhereInput;
+  }) => BatchPayloadPromise;
+  upsertProduct: (args: {
+    where: ProductWhereUniqueInput;
+    create: ProductCreateInput;
+    update: ProductUpdateInput;
+  }) => ProductPromise;
+  deleteProduct: (where: ProductWhereUniqueInput) => ProductPromise;
+  deleteManyProducts: (where?: ProductWhereInput) => BatchPayloadPromise;
 
   /**
    * Subscriptions
@@ -88,9 +160,15 @@ export interface Prisma {
 }
 
 export interface Subscription {
-  user: (
-    where?: UserSubscriptionWhereInput
-  ) => UserSubscriptionPayloadSubscription;
+  enemy: (
+    where?: EnemySubscriptionWhereInput
+  ) => EnemySubscriptionPayloadSubscription;
+  hero: (
+    where?: HeroSubscriptionWhereInput
+  ) => HeroSubscriptionPayloadSubscription;
+  product: (
+    where?: ProductSubscriptionWhereInput
+  ) => ProductSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -101,15 +179,64 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type UserOrderByInput = "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC";
+export type EnemyOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "stand_ASC"
+  | "stand_DESC";
+
+export type HeroOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "stand_ASC"
+  | "stand_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type UserWhereUniqueInput = AtLeastOne<{
+export type ProductOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "version_ASC"
+  | "version_DESC";
+
+export type HeroWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface UserWhereInput {
+export interface EnemyCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  stand?: Maybe<String>;
+  product?: Maybe<ProductCreateOneInput>;
+}
+
+export interface EnemySubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<EnemyWhereInput>;
+  AND?: Maybe<EnemySubscriptionWhereInput[] | EnemySubscriptionWhereInput>;
+  OR?: Maybe<EnemySubscriptionWhereInput[] | EnemySubscriptionWhereInput>;
+  NOT?: Maybe<EnemySubscriptionWhereInput[] | EnemySubscriptionWhereInput>;
+}
+
+export type EnemyWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface ProductUpsertNestedInput {
+  update: ProductUpdateDataInput;
+  create: ProductCreateInput;
+}
+
+export interface ProductWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -138,82 +265,289 @@ export interface UserWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
-  AND?: Maybe<UserWhereInput[] | UserWhereInput>;
-  OR?: Maybe<UserWhereInput[] | UserWhereInput>;
-  NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
+  version?: Maybe<Int>;
+  version_not?: Maybe<Int>;
+  version_in?: Maybe<Int[] | Int>;
+  version_not_in?: Maybe<Int[] | Int>;
+  version_lt?: Maybe<Int>;
+  version_lte?: Maybe<Int>;
+  version_gt?: Maybe<Int>;
+  version_gte?: Maybe<Int>;
+  AND?: Maybe<ProductWhereInput[] | ProductWhereInput>;
+  OR?: Maybe<ProductWhereInput[] | ProductWhereInput>;
+  NOT?: Maybe<ProductWhereInput[] | ProductWhereInput>;
 }
 
-export interface UserCreateInput {
+export interface ProductUpdateDataInput {
+  name?: Maybe<String>;
+  version?: Maybe<Int>;
+}
+
+export interface ProductUpdateManyMutationInput {
+  name?: Maybe<String>;
+  version?: Maybe<Int>;
+}
+
+export interface ProductUpdateOneInput {
+  create?: Maybe<ProductCreateInput>;
+  update?: Maybe<ProductUpdateDataInput>;
+  upsert?: Maybe<ProductUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<ProductWhereUniqueInput>;
+}
+
+export interface HeroUpdateManyMutationInput {
+  name?: Maybe<String>;
+  stand?: Maybe<String>;
+}
+
+export type ProductWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface HeroCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
+  stand?: Maybe<String>;
+  product?: Maybe<ProductCreateOneInput>;
 }
 
-export interface UserUpdateInput {
+export interface EnemyUpdateManyMutationInput {
   name?: Maybe<String>;
+  stand?: Maybe<String>;
 }
 
-export interface UserUpdateManyMutationInput {
+export interface ProductCreateOneInput {
+  create?: Maybe<ProductCreateInput>;
+  connect?: Maybe<ProductWhereUniqueInput>;
+}
+
+export interface ProductCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  version: Int;
+}
+
+export interface EnemyUpdateInput {
   name?: Maybe<String>;
+  stand?: Maybe<String>;
+  product?: Maybe<ProductUpdateOneInput>;
 }
 
-export interface UserSubscriptionWhereInput {
+export interface HeroSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  node?: Maybe<HeroWhereInput>;
+  AND?: Maybe<HeroSubscriptionWhereInput[] | HeroSubscriptionWhereInput>;
+  OR?: Maybe<HeroSubscriptionWhereInput[] | HeroSubscriptionWhereInput>;
+  NOT?: Maybe<HeroSubscriptionWhereInput[] | HeroSubscriptionWhereInput>;
+}
+
+export interface HeroWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  stand?: Maybe<String>;
+  stand_not?: Maybe<String>;
+  stand_in?: Maybe<String[] | String>;
+  stand_not_in?: Maybe<String[] | String>;
+  stand_lt?: Maybe<String>;
+  stand_lte?: Maybe<String>;
+  stand_gt?: Maybe<String>;
+  stand_gte?: Maybe<String>;
+  stand_contains?: Maybe<String>;
+  stand_not_contains?: Maybe<String>;
+  stand_starts_with?: Maybe<String>;
+  stand_not_starts_with?: Maybe<String>;
+  stand_ends_with?: Maybe<String>;
+  stand_not_ends_with?: Maybe<String>;
+  product?: Maybe<ProductWhereInput>;
+  AND?: Maybe<HeroWhereInput[] | HeroWhereInput>;
+  OR?: Maybe<HeroWhereInput[] | HeroWhereInput>;
+  NOT?: Maybe<HeroWhereInput[] | HeroWhereInput>;
+}
+
+export interface ProductSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ProductWhereInput>;
+  AND?: Maybe<ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput>;
+  OR?: Maybe<ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput>;
+  NOT?: Maybe<ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput>;
+}
+
+export interface HeroUpdateInput {
+  name?: Maybe<String>;
+  stand?: Maybe<String>;
+  product?: Maybe<ProductUpdateOneInput>;
+}
+
+export interface ProductUpdateInput {
+  name?: Maybe<String>;
+  version?: Maybe<Int>;
+}
+
+export interface EnemyWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  stand?: Maybe<String>;
+  stand_not?: Maybe<String>;
+  stand_in?: Maybe<String[] | String>;
+  stand_not_in?: Maybe<String[] | String>;
+  stand_lt?: Maybe<String>;
+  stand_lte?: Maybe<String>;
+  stand_gt?: Maybe<String>;
+  stand_gte?: Maybe<String>;
+  stand_contains?: Maybe<String>;
+  stand_not_contains?: Maybe<String>;
+  stand_starts_with?: Maybe<String>;
+  stand_not_starts_with?: Maybe<String>;
+  stand_ends_with?: Maybe<String>;
+  stand_not_ends_with?: Maybe<String>;
+  product?: Maybe<ProductWhereInput>;
+  AND?: Maybe<EnemyWhereInput[] | EnemyWhereInput>;
+  OR?: Maybe<EnemyWhereInput[] | EnemyWhereInput>;
+  NOT?: Maybe<EnemyWhereInput[] | EnemyWhereInput>;
 }
 
 export interface NodeNode {
   id: ID_Output;
 }
 
-export interface User {
+export interface EnemyEdge {
+  node: Enemy;
+  cursor: String;
+}
+
+export interface EnemyEdgePromise extends Promise<EnemyEdge>, Fragmentable {
+  node: <T = EnemyPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface EnemyEdgeSubscription
+  extends Promise<AsyncIterator<EnemyEdge>>,
+    Fragmentable {
+  node: <T = EnemySubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface HeroSubscriptionPayload {
+  mutation: MutationType;
+  node: Hero;
+  updatedFields: String[];
+  previousValues: HeroPreviousValues;
+}
+
+export interface HeroSubscriptionPayloadPromise
+  extends Promise<HeroSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = HeroPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = HeroPreviousValuesPromise>() => T;
+}
+
+export interface HeroSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<HeroSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = HeroSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = HeroPreviousValuesSubscription>() => T;
+}
+
+export interface AggregateProduct {
+  count: Int;
+}
+
+export interface AggregateProductPromise
+  extends Promise<AggregateProduct>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateProductSubscription
+  extends Promise<AsyncIterator<AggregateProduct>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ProductPreviousValues {
   id: ID_Output;
   name: String;
+  version: Int;
 }
 
-export interface UserPromise extends Promise<User>, Fragmentable {
+export interface ProductPreviousValuesPromise
+  extends Promise<ProductPreviousValues>,
+    Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  version: () => Promise<Int>;
 }
 
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
+export interface ProductPreviousValuesSubscription
+  extends Promise<AsyncIterator<ProductPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
-}
-
-export interface UserNullablePromise
-  extends Promise<User | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-}
-
-export interface UserConnection {
-  pageInfo: PageInfo;
-  edges: UserEdge[];
-}
-
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
-}
-
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  version: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface PageInfo {
@@ -239,35 +573,261 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface UserEdge {
-  node: User;
+export interface ProductConnection {
+  pageInfo: PageInfo;
+  edges: ProductEdge[];
+}
+
+export interface ProductConnectionPromise
+  extends Promise<ProductConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ProductEdge>>() => T;
+  aggregate: <T = AggregateProductPromise>() => T;
+}
+
+export interface ProductConnectionSubscription
+  extends Promise<AsyncIterator<ProductConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ProductEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateProductSubscription>() => T;
+}
+
+export interface EnemyConnection {
+  pageInfo: PageInfo;
+  edges: EnemyEdge[];
+}
+
+export interface EnemyConnectionPromise
+  extends Promise<EnemyConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<EnemyEdge>>() => T;
+  aggregate: <T = AggregateEnemyPromise>() => T;
+}
+
+export interface EnemyConnectionSubscription
+  extends Promise<AsyncIterator<EnemyConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<EnemyEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateEnemySubscription>() => T;
+}
+
+export interface HeroEdge {
+  node: Hero;
   cursor: String;
 }
 
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
+export interface HeroEdgePromise extends Promise<HeroEdge>, Fragmentable {
+  node: <T = HeroPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
+export interface HeroEdgeSubscription
+  extends Promise<AsyncIterator<HeroEdge>>,
     Fragmentable {
-  node: <T = UserSubscription>() => T;
+  node: <T = HeroSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateUser {
+export interface Enemy {
+  id: ID_Output;
+  name: String;
+  stand?: String;
+}
+
+export interface EnemyPromise extends Promise<Enemy>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  stand: () => Promise<String>;
+  product: <T = ProductPromise>() => T;
+}
+
+export interface EnemySubscription
+  extends Promise<AsyncIterator<Enemy>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  stand: () => Promise<AsyncIterator<String>>;
+  product: <T = ProductSubscription>() => T;
+}
+
+export interface EnemyNullablePromise
+  extends Promise<Enemy | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  stand: () => Promise<String>;
+  product: <T = ProductPromise>() => T;
+}
+
+export interface Hero {
+  id: ID_Output;
+  name: String;
+  stand?: String;
+}
+
+export interface HeroPromise extends Promise<Hero>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  stand: () => Promise<String>;
+  product: <T = ProductPromise>() => T;
+}
+
+export interface HeroSubscription
+  extends Promise<AsyncIterator<Hero>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  stand: () => Promise<AsyncIterator<String>>;
+  product: <T = ProductSubscription>() => T;
+}
+
+export interface HeroNullablePromise
+  extends Promise<Hero | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  stand: () => Promise<String>;
+  product: <T = ProductPromise>() => T;
+}
+
+export interface ProductSubscriptionPayload {
+  mutation: MutationType;
+  node: Product;
+  updatedFields: String[];
+  previousValues: ProductPreviousValues;
+}
+
+export interface ProductSubscriptionPayloadPromise
+  extends Promise<ProductSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ProductPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ProductPreviousValuesPromise>() => T;
+}
+
+export interface ProductSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ProductSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ProductSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ProductPreviousValuesSubscription>() => T;
+}
+
+export interface HeroPreviousValues {
+  id: ID_Output;
+  name: String;
+  stand?: String;
+}
+
+export interface HeroPreviousValuesPromise
+  extends Promise<HeroPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  stand: () => Promise<String>;
+}
+
+export interface HeroPreviousValuesSubscription
+  extends Promise<AsyncIterator<HeroPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  stand: () => Promise<AsyncIterator<String>>;
+}
+
+export interface EnemyPreviousValues {
+  id: ID_Output;
+  name: String;
+  stand?: String;
+}
+
+export interface EnemyPreviousValuesPromise
+  extends Promise<EnemyPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  stand: () => Promise<String>;
+}
+
+export interface EnemyPreviousValuesSubscription
+  extends Promise<AsyncIterator<EnemyPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  stand: () => Promise<AsyncIterator<String>>;
+}
+
+export interface EnemySubscriptionPayload {
+  mutation: MutationType;
+  node: Enemy;
+  updatedFields: String[];
+  previousValues: EnemyPreviousValues;
+}
+
+export interface EnemySubscriptionPayloadPromise
+  extends Promise<EnemySubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = EnemyPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = EnemyPreviousValuesPromise>() => T;
+}
+
+export interface EnemySubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<EnemySubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = EnemySubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = EnemyPreviousValuesSubscription>() => T;
+}
+
+export interface Product {
+  id: ID_Output;
+  name: String;
+  version: Int;
+}
+
+export interface ProductPromise extends Promise<Product>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  version: () => Promise<Int>;
+}
+
+export interface ProductSubscription
+  extends Promise<AsyncIterator<Product>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  version: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ProductNullablePromise
+  extends Promise<Product | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  version: () => Promise<Int>;
+}
+
+export interface AggregateEnemy {
   count: Int;
 }
 
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
+export interface AggregateEnemyPromise
+  extends Promise<AggregateEnemy>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
+export interface AggregateEnemySubscription
+  extends Promise<AsyncIterator<AggregateEnemy>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -288,49 +848,64 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
+export interface HeroConnection {
+  pageInfo: PageInfo;
+  edges: HeroEdge[];
 }
 
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
+export interface HeroConnectionPromise
+  extends Promise<HeroConnection>,
     Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<HeroEdge>>() => T;
+  aggregate: <T = AggregateHeroPromise>() => T;
 }
 
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+export interface HeroConnectionSubscription
+  extends Promise<AsyncIterator<HeroConnection>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<HeroEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateHeroSubscription>() => T;
 }
 
-export interface UserPreviousValues {
-  id: ID_Output;
-  name: String;
+export interface AggregateHero {
+  count: Int;
 }
 
-export interface UserPreviousValuesPromise
-  extends Promise<UserPreviousValues>,
+export interface AggregateHeroPromise
+  extends Promise<AggregateHero>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
+  count: () => Promise<Int>;
 }
 
-export interface UserPreviousValuesSubscription
-  extends Promise<AsyncIterator<UserPreviousValues>>,
+export interface AggregateHeroSubscription
+  extends Promise<AsyncIterator<AggregateHero>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<AsyncIterator<Int>>;
 }
+
+export interface ProductEdge {
+  node: Product;
+  cursor: String;
+}
+
+export interface ProductEdgePromise extends Promise<ProductEdge>, Fragmentable {
+  node: <T = ProductPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ProductEdgeSubscription
+  extends Promise<AsyncIterator<ProductEdge>>,
+    Fragmentable {
+  node: <T = ProductSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
@@ -338,10 +913,7 @@ The `ID` scalar type represents a unique identifier, often used to refetch an ob
 export type ID_Input = string | number;
 export type ID_Output = string;
 
-/*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-*/
-export type String = string;
+export type Long = string;
 
 /*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
@@ -349,11 +921,9 @@ The `Int` scalar type represents non-fractional signed whole numeric values. Int
 export type Int = number;
 
 /*
-The `Boolean` scalar type represents `true` or `false`.
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
-export type Boolean = boolean;
-
-export type Long = string;
+export type String = string;
 
 /**
  * Model Metadata
@@ -361,7 +931,15 @@ export type Long = string;
 
 export const models: Model[] = [
   {
-    name: "User",
+    name: "Product",
+    embedded: false
+  },
+  {
+    name: "Hero",
+    embedded: false
+  },
+  {
+    name: "Enemy",
     embedded: false
   }
 ];
