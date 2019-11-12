@@ -20,6 +20,21 @@ export interface NexusGenEnums {
 }
 
 export interface NexusGenRootTypes {
+  Enemy: { // root type
+    id: string; // ID!
+    name: string; // String!
+    stand: string; // String!
+  }
+  Hero: { // root type
+    id: string; // ID!
+    name: string; // String!
+    stand: string; // String!
+  }
+  Product: { // root type
+    id: string; // ID!
+    name: string; // String!
+    version: number; // Int!
+  }
   Query: {};
   String: string;
   Int: number;
@@ -32,17 +47,29 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
 }
 
 export interface NexusGenFieldTypes {
+  Enemy: { // field return type
+    id: string; // ID!
+    name: string; // String!
+    product: NexusGenRootTypes['Product']; // Product!
+    stand: string; // String!
+  }
+  Hero: { // field return type
+    id: string; // ID!
+    name: string; // String!
+    product: NexusGenRootTypes['Product']; // Product!
+    stand: string; // String!
+  }
+  Product: { // field return type
+    id: string; // ID!
+    name: string; // String!
+    version: number; // Int!
+  }
   Query: { // field return type
-    hello: string; // String!
+    products: NexusGenRootTypes['Product'][]; // [Product!]!
   }
 }
 
 export interface NexusGenArgTypes {
-  Query: {
-    hello: { // args
-      name?: string | null; // String
-    }
-  }
 }
 
 export interface NexusGenAbstractResolveReturnTypes {
@@ -50,7 +77,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Query";
+export type NexusGenObjectNames = "Enemy" | "Hero" | "Product" | "Query";
 
 export type NexusGenInputNames = never;
 
